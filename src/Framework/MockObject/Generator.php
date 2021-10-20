@@ -1004,7 +1004,7 @@ class PHPUnit_Framework_MockObject_Generator
         }
 
         if ($this->hasReturnType($method)) {
-            $returnType = (string) $method->getReturnType();
+            $returnType = $method->getReturnType()->getName();
         } else {
             $returnType = '';
         }
@@ -1187,12 +1187,12 @@ class PHPUnit_Framework_MockObject_Generator
             $typeDeclaration = '';
 
             if (!$forCall) {
-                if ($this->hasType($parameter) && (string) $parameter->getType() !== 'self') {
+                if ($this->hasType($parameter) && $parameter->getType()->getName() !== 'self') {
                     if (version_compare(PHP_VERSION, '7.1', '>=') && $parameter->allowsNull() && !$parameter->isVariadic()) {
                         $nullable = '?';
                     }
 
-                    $typeDeclaration = (string) $parameter->getType() . ' ';
+                    $typeDeclaration = $parameter->getType()->getName() . ' ';
                 } elseif ($parameter->isArray()) {
                     $typeDeclaration = 'array ';
                 } elseif ($parameter->isCallable()) {
